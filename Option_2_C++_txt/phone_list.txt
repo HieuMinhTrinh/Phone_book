@@ -1,2 +1,3 @@
-Minh;Hieu;Trinh;Russia;24/10/2003;hieu42@gmail.com;79516536562;Student
-Hai;Dang;Hoang;American;10/10/1992;haidanghoang@gmail.com;0987465234;SWE
+Minh;Hieu;Trinh;Russia;2003-10-24;hieu42@gmail.com;79516536562;Student
+Hai;Dang;Hoang;American;1992-10-10;haidanghoang@gmail.com;0987465234;SWE
+Nguyen;Tuan;Minh;VietNam;1999-05-03;hieu@gmail.com;+78516536592;Student

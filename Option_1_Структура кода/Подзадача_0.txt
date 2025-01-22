@@ -1,0 +1,75 @@
+Подзадача 0: Продумать структуру кода, определить названия и назначения классов.
+
+***Ответ***
+Приложение будет состоять из трех основных слоев:
+	- Модель данных: Хранение и управление данными контактов.
+	- Логика приложения: Обработка данных, валидация, поиск, сортировка.
+	- Пользовательский интерфейс: Взаимодействие с пользователем, отображение данных.
+
+1. Модель данных
+    а. Contact 
+	- Назначение: Представляет контакт в телефонном справочнике с обязательными полями.
+        - Поля:
+		. QString firstName; // Имя
+		. QString lastName; // Фамилия
+		. QString middleName; // Отчество
+		. QString address; // Адрес
+		. QDate birthDate; // Дата рождения
+		. QString email; // Email
+		. QList<QString> phoneNumbers; // Список телефонных номеров
+    b. ContactListModel
+	- Назначение: Модель данных для отображения списка контактов в интерфейсе. Наследуется от QAbstractTableModel для работы с QTableView.
+	- Основные методы:
+		. rowCount() и columnCount() — определяют размер таблицы.
+		. data() — предоставляет данные для отображения.
+		. setData() — обновляет данные модели.
+		. flags() — определяет свойства ячеек (например, редактируемость).
+		. addContact(const Contact& contact) — добавление контакта.
+		. removeContact(int row) — удаление контакта.
+		. updateContact(int row, const Contact& contact) — обновление контакта.
+2. Логика приложения
+    a. ContactManager
+	- Назначение: Управляет списком контактов, выполняет операции добавления, удаления, редактирования, поиска и сортировки.
+	- Основные методы:
+		. bool addContact(const Contact& contact); — добавление контакта с валидацией данных.
+		. bool editContact(int index, const Contact& contact); — редактирование контакта.
+		. bool removeContact(int index); — удаление контакта.
+		. QList<int> searchContacts(const QString& query, const QStringList& fields); — поиск контактов по нескольким полям.
+		. void sortContacts(const QString& field, Qt::SortOrder order); — сортировка по указанному полю.
+		. QList<Contact> getContacts() const; — получение списка контактов.
+     b. Validator
+	- Назначение: Проверяет корректность вводимых данных с использованием регулярных выражений и других правил.
+	- Основные методы:
+		. static bool validateName(const QString& name); — проверка ФИО.
+		. static bool validateAddress(const QString& address); — проверка адреса.
+		. static bool validateBirthDate(const QDate& birthDate); — проверка даты рождения.
+		. static bool validateEmail(const QString& email); — проверка email.
+		. static bool validatePhoneNumber(const QString& phoneNumber); — проверка телефонного номера.
+3. Пользовательский интерфейс
+    a. MainWindow
+	- Назначение: Главное окно приложения, обеспечивает взаимодействие пользователя с приложением.
+	- Компоненты интерфейса:
+		. Поле поиска (QLineEdit): Позволяет вводить запросы для поиска по нескольким полям.
+		. Таблица контактов (QTableView): Отображает список контактов, поддерживает сортировку по столбцам.
+		. Меню: Пункты для открытия и сохранения данных, выхода из приложения и т.д.
+	- Основные методы:
+		. void onAddButtonClicked(); — обработка нажатия кнопки добавления.
+		. void onEditButtonClicked(); — обработка нажатия кнопки редактирования.
+		. void onDeleteButtonClicked(); — обработка нажатия кнопки удаления.
+		. void onSearchTextChanged(const QString& text); — обработка изменений в поле поиска.
+		. void onTableHeaderClicked(int section); — обработка сортировки при клике по заголовку таблицы.
+    b. ContactEditorDialog
+	- Назначение: Диалоговое окно для добавления и редактирования контактов.
+	- Основные методы:
+		. void accept(); — проверка данных и закрытие диалога с сохранением.
+		. void reject(); — закрытие диалога без сохранения.
+		. void onAddPhoneButtonClicked(); — добавление нового номера.
+		. void onRemovePhoneButtonClicked(); — удаление выбранного номера.
+4. Утилитарные классы
+   a. FileHandler
+	- Назначение: Управляет загрузкой и сохранением данных контактов из/в файл (например, в формате JSON или CSV).
+	- Основные методы:
+		. static QList<Contact> loadContacts(const QString& filePath); — загрузка контактов из файла.
+		. static bool saveContacts(const QString& filePath, const QList<Contact>& contacts); — сохранение контактов в файл.
+   b. SortFilterProxyModel
+	- Назначение: Наследуется от QSortFilterProxyModel, используется для фильтрации и сортировки данных в QTableView.
